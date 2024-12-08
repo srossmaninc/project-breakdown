@@ -25,7 +25,7 @@ colors = {
 	'folder': '\033[0;35m'
 }
 
-dir_to_search = "/Users/sethrossman/Desktop/UNH Y4/ASV"
+dir_to_search = "/Users/sethrossman/Desktop/UNH Y4/GUPPS/gupps-control"
 
 files_to_omit = [".DS_Store", ".gitignore"]
 dir_to_omit = [".git", "__pycache__", ".vscode"]
@@ -55,8 +55,12 @@ def search_code():
 					}
 			# print(f"{dirpath}/{f}")
 
+	# for entry in all_files:
+	# 	print(type(entry))
+	# 	pass
+
 	for key in all_files.keys():
-		# print(key)
+		# print(type(key))
 		with open(key, 'r') as ff:
 			try:
 				file_read = ff.read()
@@ -65,16 +69,20 @@ def search_code():
 					search_k = k.split("/")[-1]
 					search_k_search = search_k.split(".")
 					# print(f"search_k: {search_k}, search_k_search: {search_k_search}")
+					# print(search_k_search)
+
 					if len(search_k_search) == 1:
-						if file_read.find(search_k_search) != -1:
+						if file_read.find(search_k_search[-1]) != -1:
 							all_files[key]['num_of_instances'] += 1
 							all_files[key]['connections'].append(k)
 					else:
+						# print(search_k_search[-2])
 						if file_read.find(search_k_search[-2]) != -1:
 							all_files[key]['num_of_instances'] += 1
 							all_files[key]['connections'].append(k)
-			except:
+			except Exception as e:
 				# trying to read an unreadable file
+				print(f"Error ({e}): {key}")
 				# print("---")
 				pass
 
